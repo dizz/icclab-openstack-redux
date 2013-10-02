@@ -1,2 +1,0 @@
-icclab-openstack-redux
-======================
