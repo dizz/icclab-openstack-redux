@@ -2,6 +2,7 @@
 # vi: set ft=ruby :
 
 VAGRANTFILE_API_VERSION = "2"
+UBU = false
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
@@ -10,8 +11,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     hostname = os_ctl.vm.hostname = "ctl.cloudcomplab.dev"
 
     # os_ctl.vm.box = "ubuntu13-latest"
-    os_ctl.vm.box = "raring-server-cloudimg-vagrant-amd64-disk1"
-    os_ctl.vm.box_url = "http://cloud-images.ubuntu.com/raring/current/raring-server-cloudimg-vagrant-amd64-disk1.box"
+    if UBU
+      os_ctl.vm.box = "raring-server-cloudimg-vagrant-amd64-disk1"
+      os_ctl.vm.box_url = "http://cloud-images.ubuntu.com/raring/current/raring-server-cloudimg-vagrant-amd64-disk1.box"
+      os_ctl.vm.provision "shell", path: "ubu-pre-script.sh"
+    else
+      os_ctl.vm.box = "centos-64-x64-vbox4210"
+      os_ctl.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-64-x64-vbox4210.box"
+      os_ctl.vm.provision "shell", path: "centos-pre-script.sh"
+    end
 
     # Create a private network, which allows host-only access to the machine
     # using a specific IP.
@@ -32,8 +40,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       vb.customize ["modifyvm", :id, "--nicpromisc4", "allow-all"]
     end
 
-    os_ctl.vm.provision "shell", path: "script.sh"
-
     os_ctl.vm.provision "puppet" do |os_ctl_puppet|
       # let's force that fqdn is set
       os_ctl_puppet.facter         = { "fqdn" => hostname }
@@ -47,9 +53,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define :os_cmp do |os_cmp|
     hostname = os_cmp.vm.hostname = "cmp.cloudcomplab.dev"
     
-    #os_cmp.vm.box = "ubuntu13-latest"
-    os_cmp.vm.box = "raring-server-cloudimg-vagrant-amd64-disk1"
-    os_cmp.vm.box_url = "http://cloud-images.ubuntu.com/raring/current/raring-server-cloudimg-vagrant-amd64-disk1.box"
+    if UBU
+      os_cmp.vm.box = "raring-server-cloudimg-vagrant-amd64-disk1"
+      os_cmp.vm.box_url = "http://cloud-images.ubuntu.com/raring/current/raring-server-cloudimg-vagrant-amd64-disk1.box"
+      os_cmp.vm.provision "shell", path: "ubu-pre-script.sh"
+    else
+      os_cmp.vm.box = "centos-64-x64-vbox4210"
+      os_cmp.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-64-x64-vbox4210.box"
+      os_cmp.vm.provision "shell", path: "centos-pre-script.sh"
+    end
 
     # eth1
     os_cmp.vm.network "private_network", ip: "10.10.100.52" #, netmask: "255.255.255.0", nic_type: '82545EM'
@@ -60,8 +72,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       #eth2
       #vb.customize ["modifyvm", :id, "--nicpromisc3", "allow-all"]
     end
-
-    os_cmp.vm.provision "shell", path: "script.sh"
     
     os_cmp.vm.provision "puppet" do |os_cmp_puppet|     
       #os_cmp_puppet.pp_path = "/tmp/vagrant-puppet"
