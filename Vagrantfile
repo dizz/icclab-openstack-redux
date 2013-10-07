@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 VAGRANTFILE_API_VERSION = "2"
-UBU = false
+UBU = true
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
