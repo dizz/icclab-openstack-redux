@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 VAGRANTFILE_API_VERSION = "2"
-UBU = true
+UBU = false
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
@@ -73,8 +73,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       #vb.customize ["modifyvm", :id, "--nicpromisc3", "allow-all"]
     end
     
-    os_cmp.vm.provision "puppet" do |os_cmp_puppet|     
-      #os_cmp_puppet.pp_path = "/tmp/vagrant-puppet"
+    os_cmp.vm.provision "puppet" do |os_cmp_puppet|
       os_cmp_puppet.facter         = { "fqdn" => hostname }
       os_cmp_puppet.module_path    = "modules"
       os_cmp_puppet.manifests_path = "manifests"

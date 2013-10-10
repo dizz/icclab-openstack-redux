@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# disable SELinux
+sed -i 's/^SELINUX=enabled/^SELINUX=disabled/' /etc/selinux/config
+
+# kill centos firewall
+service iptables stop
+chkconfig iptables off
+
 # ensure latest version of puppet (3.X)
 rpm -ivh http://yum.puppetlabs.com/el/6/products/i386/puppetlabs-release-6-7.noarch.rpm
 
