@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 VAGRANTFILE_API_VERSION = "2"
-UBU = false
+UBU = true
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
@@ -27,17 +27,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # [--nicpromisc<1-N> deny|allow-vms|allow-all]
 
     # eth1
-    os_ctl.vm.network "private_network", ip: "10.10.100.51"   #, netmask: "255.255.255.0", nic_type: '82545EM'
+    os_ctl.vm.network "private_network", ip: "10.10.10.51"   #, netmask: "255.255.255.0", nic_type: '82545EM'
     # eth2 pub mgt
-    os_ctl.vm.network "private_network", ip: "192.168.100.51" #, netmask: "255.255.255.0", nic_type: '82545EM'
+    os_ctl.vm.network "private_network", ip: "192.168.100.4" #, netmask: "255.255.255.0", nic_type: '82545EM'
     # eth3 egress traffic
-    os_ctl.vm.network "private_network", ip: "192.168.100.52" #, netmask: "255.255.255.0", nic_type: '82545EM'
+    # os_ctl.vm.network "private_network", ip: "192.168.100.5" #, netmask: "255.255.255.0", nic_type: '82545EM'
     
     os_ctl.vm.provider :virtualbox do |vb|
       #vb.gui = true
       vb.customize ["modifyvm", :id, "--memory", "2048"]
       #eth3
-      vb.customize ["modifyvm", :id, "--nicpromisc4", "allow-all"]
+      vb.customize ["modifyvm", :id, "--nicpromisc3", "allow-all"]
     end
 
     os_ctl.vm.provision "puppet" do |os_ctl_puppet|
@@ -64,7 +64,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
 
     # eth1
-    os_cmp.vm.network "private_network", ip: "10.10.100.52" #, netmask: "255.255.255.0", nic_type: '82545EM'
+    os_cmp.vm.network "private_network", ip: "10.10.10.52" #, netmask: "255.255.255.0", nic_type: '82545EM'
 
     os_cmp.vm.provider :virtualbox do |vb|
       #vb.gui = true
