@@ -5,7 +5,12 @@ wget http://apt.puppetlabs.com/puppetlabs-release-raring.deb
 dpkg -i puppetlabs-release-raring.deb
 rm puppetlabs-release-raring.deb
 
+# install this repo for OpenStack updates
+apt-get install ubuntu-cloud-keyring
+echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu precise-updates/grizzly main" > /etc/apt/sources.list.d/grizzly.list
+
 #update and upgrade
 apt-get update 
-apt-get upgrade -y
-apt-get dist-upgrade -y
+#apt-get upgrade -y
+#apt-get dist-upgrade -y
+apt-get install -y puppet
