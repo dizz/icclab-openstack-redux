@@ -40,9 +40,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
 
     # eth1
-    os_ctl.vm.network "private_network", ip: "10.10.10.51"   #, netmask: "255.255.255.0", nic_type: '82545EM'
+    os_ctl.vm.network "private_network", ip: "10.10.10.51", auto_config: false   #, netmask: "255.255.255.0", nic_type: '82545EM'
     # eth2 pub mgt
-    os_ctl.vm.network "private_network", ip: "192.168.100.4" #, netmask: "255.255.255.0", nic_type: '82545EM'
+    os_ctl.vm.network "private_network", ip: "192.168.100.4", auto_config: false #, netmask: "255.255.255.0", nic_type: '82545EM'
     # eth3 egress traffic
     # os_ctl.vm.network "private_network", ip: "192.168.100.5" #, netmask: "255.255.255.0", nic_type: '82545EM'
 
