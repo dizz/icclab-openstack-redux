@@ -26,7 +26,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     hostname = os_ctl.vm.hostname = "ctl.cloudcomplab.dev"
 
     if UBU
-      os_ctl.vm.box = 'ubuntu1304'
+      os_ctl.vm.box = 'ubuntu1204'
       #os_ctl.vm.box_url = 'https://dl.dropboxusercontent.com/s/lq55q85k61wz9if/misheska-ubuntu1304.box'
       os_ctl.vm.provision "shell", path: "ubu-pre-script.sh"
 
@@ -78,7 +78,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     hostname = os_cmp.vm.hostname = "cmp.cloudcomplab.dev"
     
     if UBU
-      os_cmp.vm.box = 'ubuntu1304'
+      os_cmp.vm.box = 'ubuntu1204'
       os_cmp.vm.box_url = 'https://dl.dropboxusercontent.com/s/lq55q85k61wz9if/misheska-ubuntu1304.box'
       os_cmp.vm.provision "shell", path: "ubu-pre-script.sh"
 

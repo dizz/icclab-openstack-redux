@@ -7,7 +7,7 @@ rm puppetlabs-release-raring.deb
 
 # install this repo for OpenStack updates
 apt-get install ubuntu-cloud-keyring
-echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu precise-updates/grizzly main" > /etc/apt/sources.list.d/grizzly.list
+echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu precise-updates/havana main" > /etc/apt/sources.list.d/havana.list
 
 #update and upgrade
 apt-get update 

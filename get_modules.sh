@@ -12,7 +12,7 @@ git clone https://github.com/dizz/icclab-puppet-savanna.git modules/savanna
 git clone http://github.com/dizz/icclab-os modules/icclab
 
 # puppet module install puppetlabs/openstack --target-dir ./modules
-git clone git@github.com:dizz/puppet-openstack.git -b stable/grizzly modules/openstack
+git clone git@github.com:dizz/puppet-openstack.git modules/openstack
 gem install librarian-puppet
 cd modules/openstack
 librarian-puppet install --path ../
