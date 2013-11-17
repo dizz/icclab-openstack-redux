@@ -27,7 +27,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     if UBU
       os_ctl.vm.box = 'ubuntu1204'
-      #os_ctl.vm.box_url = 'https://dl.dropboxusercontent.com/s/lq55q85k61wz9if/misheska-ubuntu1304.box'
+      # os_ctl.vm.box_url = 'https://dl.dropboxusercontent.com/s/lq55q85k61wz9if/misheska-ubuntu1304.box'
       os_ctl.vm.provision "shell", path: "ubu-pre-script.sh"
 
       # os_ctl.vm.box = "ubuntu13-latest"
@@ -79,7 +79,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     
     if UBU
       os_cmp.vm.box = 'ubuntu1204'
-      os_cmp.vm.box_url = 'https://dl.dropboxusercontent.com/s/lq55q85k61wz9if/misheska-ubuntu1304.box'
+      # os_cmp.vm.box_url = 'https://dl.dropboxusercontent.com/s/lq55q85k61wz9if/misheska-ubuntu1304.box'
       os_cmp.vm.provision "shell", path: "ubu-pre-script.sh"
 
       # os_cmp.vm.box = "ubuntu13-latest"
