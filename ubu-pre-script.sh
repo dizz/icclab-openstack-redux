@@ -10,7 +10,7 @@
 # echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu precise-updates/havana main" > /etc/apt/sources.list.d/havana.list
 
 #update and upgrade
-#apt-get update 
+apt-get update 
 #apt-get upgrade -y
 #apt-get dist-upgrade -y
 apt-get install -y puppet
