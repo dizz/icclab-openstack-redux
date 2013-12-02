@@ -92,7 +92,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
 
     # eth1
-    os_cmp.vm.network "private_network", ip: "10.10.10.52" #, netmask: "255.255.255.0", nic_type: '82545EM'
+    os_cmp.vm.network "private_network", ip: "10.10.10.52", auto_config: false #, netmask: "255.255.255.0", nic_type: '82545EM'
 
     os_cmp.vm.provider :virtualbox do |vb|
       # vb.gui = true
