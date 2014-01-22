@@ -97,12 +97,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     os_cmp.vm.provider :virtualbox do |vb|
       # vb.gui = true
       vb.customize ["modifyvm", :id, "--memory", "2048"]
-      #eth2
-      #vb.customize ["modifyvm", :id, "--nicpromisc3", "allow-all"]
-      #attach our disk that will be used for a cinder volume
-      #vb.config.vm.customize ["storagectl", :id, "--name", "SATA", "--sataportcount", 2, "--hostiocache", "on"]
-      #vb.config.vm.customize ['createhd', '--filename', cinder_disk, '--size', 5000 * 1024, "--format", "vmdk"] 
-      #vb.config.vm.customize ['storageattach', :id, '--storagectl', 'SATA', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', cinder_disk]
     end
     
     os_cmp.vm.provider "vmware_fusion" do |vw|
