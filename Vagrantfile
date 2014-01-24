@@ -114,4 +114,40 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       os_cmp_puppet.options        = "--verbose" #--debug
     end
   end
+
+  config.vm.define :ops_aio do |ops_aio|
+    hostname = ops_aio.vm.hostname = "mcncc.example.com"
+    
+    ops_aio.vm.box = "f19"
+    ops_aio.vm.box_url = "https://owncloud.mobile-cloud-networking.eu/owncloud/public.php?service=files&t=ce510492aa1162d261781085ada126fd&download"
+
+    ops_aio.vm.network "forwarded_port", guest: 8118, host: 8080, auto_correct: true
+    ops_aio.vm.network "forwarded_port", guest: 443, host: 8443, auto_correct: true
+    ops_aio.vm.network "forwarded_port", guest: 80, host: 8888, auto_correct: true
+
+    # eth1
+    # ops_aio.vm.network "private_network", ip: "10.10.10.52", auto_config: true #, netmask: "255.255.255.0", nic_type: '82545EM'
+
+    ops_aio.vm.provider :virtualbox do |vb|
+      # vb.gui = true
+      vb.customize ["modifyvm", :id, "--memory", "2048"]
+    end
+    
+    ops_aio.vm.provider "vmware_fusion" do |vw|
+      vw.gui = false
+      vw.vmx['memsize'] = '2048'
+      vw.vmx['vhv.enable'] = "TRUE"
+      vw.vmx['mks.enable3d'] = "FALSE"
+    end
+
+    ops_aio.vm.provision "shell", inline: "puppet module install puppetlabs/stdlib && puppet module install puppetlabs/ntp && yum -y update"
+
+    ops_aio.vm.provision "puppet" do |os_cmp_puppet|
+      os_cmp_puppet.facter         = { "fqdn" => hostname }
+      os_cmp_puppet.module_path    = "modules"
+      os_cmp_puppet.manifests_path = "manifests"
+      os_cmp_puppet.manifest_file  = "site.pp"
+      os_cmp_puppet.options        = "--verbose" #--debug
+    end
+  end
 end
