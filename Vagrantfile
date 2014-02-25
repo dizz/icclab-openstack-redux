@@ -1,7 +1,5 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
-
 # Copyright 2013 Zürcher Hochschule für Angewandte Wissenschaften
+# Copyright (c) 2013-2015, Intel Performance Learning Solutions Ltd, Intel Corporation.
 # All Rights Reserved.
 #
 #    Licensed under the Apache License, Version 2.0 (the "License"); you may
@@ -123,7 +121,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     ops_aio.vm.network "forwarded_port", guest: 8118, host: 8080, auto_correct: true
     ops_aio.vm.network "forwarded_port", guest: 443, host: 8443, auto_correct: true
-    ops_aio.vm.network "forwarded_port", guest: 80, host: 8888, auto_correct: true
+    # ops_aio.vm.network "forwarded_port", guest: 80, host: 8888, auto_correct: true
 
     # eth1
     # ops_aio.vm.network "private_network", ip: "10.10.10.52", auto_config: true #, netmask: "255.255.255.0", nic_type: '82545EM'
@@ -140,6 +138,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       vw.vmx['mks.enable3d'] = "FALSE"
     end
 
+    # 2 dependencies from origin modules & an update from openssl needs to come in place!
     ops_aio.vm.provision "shell", inline: "puppet module install puppetlabs/stdlib && puppet module install puppetlabs/ntp && yum -y update"
 
     ops_aio.vm.provision "puppet" do |os_cmp_puppet|

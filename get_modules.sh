@@ -1,10 +1,17 @@
 #! /usr/bin/env bash
 
+# checking if modules exists 
+if [ -d modules ]
+then 
+	echo "modules folder already exists, deleting it"
+	rm -rf modules/
+fi 
+
 mkdir modules
 echo "*" > modules/.gitignore
 puppet module install puppetlabs/ntp --target-dir ./modules
 puppet module install puppetlabs/lvm --target-dir ./modules
-puppet module install puppetlabs/openstack --target-dir ./modules --version 3.0.0-rc1
+puppet module install puppetlabs/openstack --target-dir ./modules
 
 git clone https://github.com/joemiller/puppet-newrelic modules/newrelic
 git clone https://github.com/stackforge/puppet-ceilometer modules/ceilometer

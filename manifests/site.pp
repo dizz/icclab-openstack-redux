@@ -1,4 +1,3 @@
-
 node /ctl.cloudcomplab.dev/ {
 
 	class {'icclab::controller': }
@@ -11,8 +10,8 @@ node /cmp.cloudcomplab.dev/ {
 
 node /mcncc.example.com/ {
 	
-	$pkgs = [ "zsh", "mc", "firefox", "xorg-x11-xauth" ]
-	package { $pkgs: ensure => "installed" }
+	# $pkgs = [ "zsh", "mc", "firefox", "xorg-x11-xauth" ]
+	# package { $pkgs: ensure => "installed" }
 	
     class { 'openshift_origin' :
 		roles             => ['broker','named','activemq','datastore','node'],
