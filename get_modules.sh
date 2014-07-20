@@ -1,11 +1,11 @@
 #! /usr/bin/env bash
 
-# checking if modules exists 
+# checking if modules exists
 if [ -d modules ]
-then 
+then
 	echo "modules folder already exists, deleting it"
 	rm -rf modules/
-fi 
+fi
 
 mkdir modules
 echo "*" > modules/.gitignore
@@ -17,11 +17,7 @@ git clone https://github.com/joemiller/puppet-newrelic modules/newrelic
 git clone https://github.com/stackforge/puppet-ceilometer modules/ceilometer
 git clone https://github.com/stackforge/puppet-savanna modules/savanna
 git clone https://github.com/stackforge/puppet-heat modules/heat
-git clone https://github.com/dizz/icclab-os modules/icclab 
-git clone https://github.com/dizz/icclab-ryu modules/ryu
-
-git clone https://github.com/openshift/puppet-openshift_origin modules/openshift_origin
-git clone https://github.com/puppetlabs/puppetlabs-vcsrepo modules/puppetlabs-vcsrepo
+git clone https://github.com/dizz/icclab-os modules/icclab
 
 # git clone https://github.com/stackforge/puppet-openstack -b stable/havana modules/openstack
 # gem install librarian-puppet

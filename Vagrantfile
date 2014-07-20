@@ -15,7 +15,6 @@
 #    under the License.
 
 VAGRANTFILE_API_VERSION = "2"
-UBU = true
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
@@ -23,19 +22,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     hostname = os_ctl.vm.hostname = "ctl.cloudcomplab.dev"
 
-    if UBU
-      os_ctl.vm.box = 'ubuntu1204'
-      # os_ctl.vm.box_url = 'https://dl.dropboxusercontent.com/s/lq55q85k61wz9if/misheska-ubuntu1304.box'
-      os_ctl.vm.provision "shell", path: "ubu-pre-script.sh"
-
-      # os_ctl.vm.box = "ubuntu13-latest"
-      # os_ctl.vm.box = "raring-server-cloudimg-vagrant-amd64-disk1"
-      # os_ctl.vm.box_url = "http://cloud-images.ubuntu.com/raring/current/raring-server-cloudimg-vagrant-amd64-disk1.box"
-    else
-      os_ctl.vm.box = "centos-64-x64-vbox4210"
-      os_ctl.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-64-x64-vbox4210.box"
-      os_ctl.vm.provision "shell", path: "centos-pre-script.sh"
-    end
+    os_ctl.vm.box = 'ubuntu1204'
+    os_ctl.vm.provision "shell", path: "ubu-pre-script.sh"
 
     # eth1
     os_ctl.vm.network "private_network", ip: "10.10.10.51", auto_config: false   #, netmask: "255.255.255.0", nic_type: '82545EM'
@@ -47,14 +35,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Create a private network, which allows host-only access to the machine
     # using a specific IP.
     # [--nictype<1-N> Am79C970A|Am79C973|82540EM|82543GC|82545EM|virtio]
-    # [--nicpromisc<1-N> deny|allow-vms|allow-all]    
+    # [--nicpromisc<1-N> deny|allow-vms|allow-all]
     os_ctl.vm.provider :virtualbox do |vb|
       #vb.gui = true
       vb.customize ["modifyvm", :id, "--memory", "2048"]
       #eth3
       vb.customize ["modifyvm", :id, "--nicpromisc3", "allow-all"]
     end
-    
+
     os_ctl.vm.provider "vmware_fusion" do |vw|
       vw.gui = false
       vw.vmx['memsize'] = '2560'
@@ -74,20 +62,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.define :os_cmp do |os_cmp|
     hostname = os_cmp.vm.hostname = "cmp.cloudcomplab.dev"
-    
-    if UBU
-      os_cmp.vm.box = 'ubuntu1204'
-      # os_cmp.vm.box_url = 'https://dl.dropboxusercontent.com/s/lq55q85k61wz9if/misheska-ubuntu1304.box'
-      os_cmp.vm.provision "shell", path: "ubu-pre-script.sh"
-
-      # os_cmp.vm.box = "ubuntu13-latest"
-      # os_cmp.vm.box = "raring-server-cloudimg-vagrant-amd64-disk1"
-      # os_cmp.vm.box_url = "http://cloud-images.ubuntu.com/raring/current/raring-server-cloudimg-vagrant-amd64-disk1.box"
-    else
-      os_cmp.vm.box = "centos-64-x64-vbox4210"
-      os_cmp.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-64-x64-vbox4210.box"
-      os_cmp.vm.provision "shell", path: "centos-pre-script.sh"
-    end
+    os_cmp.vm.box = 'ubuntu1204'
+    os_cmp.vm.provision "shell", path: "ubu-pre-script.sh"
 
     # eth1
     os_cmp.vm.network "private_network", ip: "10.10.10.52", auto_config: true #, netmask: "255.255.255.0", nic_type: '82545EM'
@@ -96,7 +72,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       # vb.gui = true
       vb.customize ["modifyvm", :id, "--memory", "2048"]
     end
-    
+
     os_cmp.vm.provider "vmware_fusion" do |vw|
       vw.gui = false
       vw.vmx['memsize'] = '2048'
@@ -113,40 +89,4 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
-  config.vm.define :ops_aio do |ops_aio|
-    hostname = ops_aio.vm.hostname = "mcncc.example.com"
-    
-    ops_aio.vm.box = "f19"
-    ops_aio.vm.box_url = "https://owncloud.mobile-cloud-networking.eu/owncloud/public.php?service=files&t=ce510492aa1162d261781085ada126fd&download"
-
-    ops_aio.vm.network "forwarded_port", guest: 8118, host: 8080, auto_correct: true
-    ops_aio.vm.network "forwarded_port", guest: 443, host: 8443, auto_correct: true
-    # ops_aio.vm.network "forwarded_port", guest: 80, host: 8888, auto_correct: true
-
-    # eth1
-    # ops_aio.vm.network "private_network", ip: "10.10.10.52", auto_config: true #, netmask: "255.255.255.0", nic_type: '82545EM'
-
-    ops_aio.vm.provider :virtualbox do |vb|
-      # vb.gui = true
-      vb.customize ["modifyvm", :id, "--memory", "2048"]
-    end
-    
-    ops_aio.vm.provider "vmware_fusion" do |vw|
-      vw.gui = false
-      vw.vmx['memsize'] = '2048'
-      vw.vmx['vhv.enable'] = "TRUE"
-      vw.vmx['mks.enable3d'] = "FALSE"
-    end
-
-    # 2 dependencies from origin modules & an update from openssl needs to come in place!
-    ops_aio.vm.provision "shell", inline: "puppet module install puppetlabs/stdlib && puppet module install puppetlabs/ntp && yum -y update"
-
-    ops_aio.vm.provision "puppet" do |os_cmp_puppet|
-      os_cmp_puppet.facter         = { "fqdn" => hostname }
-      os_cmp_puppet.module_path    = "modules"
-      os_cmp_puppet.manifests_path = "manifests"
-      os_cmp_puppet.manifest_file  = "site.pp"
-      os_cmp_puppet.options        = "--verbose" #--debug
-    end
-  end
 end
