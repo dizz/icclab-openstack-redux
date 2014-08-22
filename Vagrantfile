@@ -18,24 +18,24 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
+  box_name = 'trusty64'
+  box_url = 'https://vagrantcloud.com/ubuntu/trusty64/version/1/provider/virtualbox.box'
+
   config.vm.define :os_ctl do |os_ctl|
 
     hostname = os_ctl.vm.hostname = "ctl.cloudcomplab.dev"
 
-    os_ctl.vm.box = 'ubuntu1204'
+    os_ctl.vm.box = box_name
+    os_ctl.vm.box_url = box_url
     os_ctl.vm.provision "shell", path: "ubu-pre-script.sh"
 
     # eth1
-    os_ctl.vm.network "private_network", ip: "10.10.10.51", auto_config: false   #, netmask: "255.255.255.0", nic_type: '82545EM'
+    os_ctl.vm.network "private_network", ip: "10.10.10.51", auto_config: false
     # eth2 pub mgt
-    os_ctl.vm.network "private_network", ip: "192.168.100.4", auto_config: false #, netmask: "255.255.255.0", nic_type: '82545EM'
+    os_ctl.vm.network "private_network", ip: "192.168.100.4", auto_config: false
     # eth3 egress traffic
     # os_ctl.vm.network "private_network", ip: "192.168.100.5" #, netmask: "255.255.255.0", nic_type: '82545EM'
 
-    # Create a private network, which allows host-only access to the machine
-    # using a specific IP.
-    # [--nictype<1-N> Am79C970A|Am79C973|82540EM|82543GC|82545EM|virtio]
-    # [--nicpromisc<1-N> deny|allow-vms|allow-all]
     os_ctl.vm.provider :virtualbox do |vb|
       #vb.gui = true
       vb.customize ["modifyvm", :id, "--memory", "2048"]
@@ -62,11 +62,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.define :os_cmp do |os_cmp|
     hostname = os_cmp.vm.hostname = "cmp.cloudcomplab.dev"
-    os_cmp.vm.box = 'ubuntu1204'
+    os_cmp.vm.box = box_name
+    os_cmp.vm.url = box_url
     os_cmp.vm.provision "shell", path: "ubu-pre-script.sh"
 
     # eth1
-    os_cmp.vm.network "private_network", ip: "10.10.10.52", auto_config: true #, netmask: "255.255.255.0", nic_type: '82545EM'
+    os_cmp.vm.network "private_network", ip: "10.10.10.52", auto_config: true
 
     os_cmp.vm.provider :virtualbox do |vb|
       # vb.gui = true
